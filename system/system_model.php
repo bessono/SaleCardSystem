@@ -19,4 +19,12 @@ class system_model {
 	public function disconnect($link){
 		mysqli_close($link);
 	}
+	
+	public function auth(){
+		$link = $this->connect();
+		$query = mysqli_query($link,"SELECT * FROM pins WHERE pin='".$_POST['auth_pin']."'");
+		$result = mysqli_fetch_array($query);
+		$this->disconnect($link);
+		return $result;
+	}
 }

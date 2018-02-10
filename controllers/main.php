@@ -3,11 +3,13 @@
 class main_controller extends system_controller{
 	public function start_form($s){
 		$bml = new BAEHTMLlib();
-		$this->view_data['s'] = "MVC is work";
-		$this->view_data['s'].= $bml->br().
-					$bml->b(" test BAEHTMLlib").
-					$bml->make_baef_link("Help","help","show_help").
-					$bml->br();
-		$this->make_view("main/start_form");
+		if(isset($_POST['auth_pin'])){
+			$this->auth();
+		}
+		if((!isset($_SESSION['login'])) && ($_SESSION['login'] == 1)){
+			$this->make_view("main/start_form");
+		} else {
+			$this->make_view("main/main_form");
+		}
 	}
 }

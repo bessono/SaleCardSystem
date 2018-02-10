@@ -3,3 +3,13 @@
 	color:black;
 	background-color:white;
 }
+
+.panel {
+	padding:10px;
+	border-radius:2px;
+	border:1px solid silver;
+	box-shadow:3px 2px 3px silver;
+	background-color:white;
+	color:navy;
+	margin:auto
+}
