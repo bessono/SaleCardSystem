@@ -24,6 +24,7 @@ if(isset($_GET['mode'])){
 			$_GET['mode'] = $_GET['mode']."_controller";
 			$_GET['do'] = $_GET['method'];
 			$controller = new $_GET['mode'];
-			$controller->$_GET['method']($_GET['param']);			
+			$foo = $_GET['method'];
+			$controller->$foo($_GET['param']);		
 		}
 }
