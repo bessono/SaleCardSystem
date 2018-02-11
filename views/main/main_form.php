@@ -1,3 +1,5 @@
-<div class="panel" style="width:600px;">
-Штрих код скидочной карты:<input type=""></input>
+<div class="panel" style="margin:auto; text-align:center;">
+        Р’РІРµРґРёС‚Рµ РєРѕРґ СЃРѕ СЃРєРёРґРѕС‡РЅРѕР№ РєР°СЂС‚С‹:
+        <input type="text" name="code" style="width:300px;">
 </div>
+
