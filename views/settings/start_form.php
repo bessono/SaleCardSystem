@@ -1,3 +1,6 @@
-<h2>
+<div class="panel" style="width:600px; margin:auto;">
+<h3 style="text-align:center;">
 Настройка программы
-</h2>
+</h3>
+</div>
+
