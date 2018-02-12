@@ -3,6 +3,8 @@
 <title>BAE Framework</title>
 <link rel="stylesheet" type="text/css" href="./styles/default.css"></link>
 <script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/functions.js"></script>
+
 <body>
 
 

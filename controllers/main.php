@@ -13,7 +13,7 @@ class main_controller extends system_controller{
 		}
 	}
 
-	public function exit(){
+	public function log_out(){
 		unset($_SESSION['login']);
 		unset($_SESSION['level']);
 		$this->make_view("main/exit_redirect");
