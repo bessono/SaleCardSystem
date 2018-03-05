@@ -1,8 +1,8 @@
--- MySQL dump 10.16  Distrib 10.1.21-MariaDB, for Win32 (AMD64)
+-- MySQL dump 10.13  Distrib 5.7.11, for Linux (x86_64)
 --
--- Host: localhost    Database: localhost
+-- Host: localhost    Database: cardsystem
 -- ------------------------------------------------------
--- Server version	10.1.21-MariaDB
+-- Server version	5.7.11-0ubuntu6
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,7 +32,7 @@ CREATE TABLE `customers` (
   `percent` int(11) DEFAULT NULL,
   `bonuses` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,6 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'Bessonov',NULL,NULL,NULL,NULL,NULL,NULL),(2,'Ivanov',NULL,NULL,NULL,NULL,NULL,NULL),(3,'Petrov',NULL,NULL,NULL,NULL,NULL,NULL),(4,'Ð‘ÐµÑÑÐ¾Ð½Ð¾Ð² ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€','123','bessonomap@yandex.ru','+79787841984',NULL,NULL,NULL),(5,'ÐÐ³Ð°Ñ„Ð¾Ð½Ñ†ÐµÐ² ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€','321','agaf@mail.ru','+8374773722',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-05  9:40:09
+-- Dump completed on 2018-03-05 10:05:22

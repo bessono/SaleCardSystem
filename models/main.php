@@ -16,7 +16,16 @@ class main_model extends system_model{
 	}
 	
 	public function get_customer_data_form(){
-		print "OK";
+		$bml = new BAEHTMLlib();
+		$out = $bml->br().$bml->b("Запрос по карте ".$_POST['card_id']." вернул результат:");
+		$link = $this->connect();
+			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id=".$_POST['card_id']);
+			$result = mysqli_fetch_array($query);
+			$table_array = array();
+			array_push($table_array,"ФИО",$result['name']);
+			$out .= $bml->tableCreate("1",$table_array);
+		$this->disconnect($link);
+		print $out;
 	}
 	
 	public function set_customer_data_form(){
