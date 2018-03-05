@@ -25,8 +25,14 @@ DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `card_id` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `percent` int(11) DEFAULT NULL,
+  `bonuses` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +41,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'Bessonov'),(2,'Ivanov'),(3,'Petrov');
+INSERT INTO `customers` VALUES (1,'Bessonov',NULL,NULL,NULL,NULL,NULL,NULL),(2,'Ivanov',NULL,NULL,NULL,NULL,NULL,NULL),(3,'Petrov',NULL,NULL,NULL,NULL,NULL,NULL),(4,'Ð‘ÐµÑÑÐ¾Ð½Ð¾Ð² ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€','123','bessonomap@yandex.ru','+79787841984',NULL,NULL,NULL),(5,'ÐÐ³Ð°Ñ„Ð¾Ð½Ñ†ÐµÐ² ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€','321','agaf@mail.ru','+8374773722',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-10 21:48:55
+-- Dump completed on 2018-03-05  9:40:09
