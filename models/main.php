@@ -22,9 +22,14 @@ class main_model extends system_model{
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id=".$_POST['card_id']);
 			$result = mysqli_fetch_array($query);
 			$table_array = array();
-			array_push($table_array,"ФИО",$result['name']);
-			$out .= $bml->tableCreate("1",$table_array);
+			array_push($table_array,"ФИО",$result['name'],
+						"Телефон",$result['phone'],
+						"e-mail",$result['phone'],
+						"Процент на скидку",$result['percent'],
+						"Начислено бонусов",$result['bonuses']);
+			$out .= $bml->tableCreate("2",$table_array,"style='border:solid 1px silver; margin:auto;'","style='border:1px solid silver;'");
 		$this->disconnect($link);
+		$out .= $bml->br().$bml->br();
 		print $out;
 	}
 	
