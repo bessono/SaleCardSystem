@@ -12,6 +12,14 @@ class settings_model extends system_model{
 		$this->disconnect($link);
 		return $pins;
 	}
+
+	public function get_settings(){
+                $link = $this->connect();
+                $query = mysqli_query($link,"SELECT * FROM settings");
+                $res = mysqli_fetch_array($query);
+                          
+                return $res;
+        }
 	
 	public function update_pins($pin_admin,$pin_manager){
 		$link = $this->connect();

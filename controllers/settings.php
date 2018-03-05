@@ -5,6 +5,7 @@ class settings_controller extends system_controller{
 		if($_SESSION['level'] != "admin") exit("Вы не администратор!!!");
 		$model = new settings_model();
 		$this->view_data['pins'] = $model->get_pins();
+		$this->view_data['settings'] = $model->get_settings();
 		$this->make_view("settings/start_form");
 	}
 	
