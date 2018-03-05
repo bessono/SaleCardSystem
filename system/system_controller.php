@@ -33,7 +33,6 @@ class system_controller {
 		$text = str_replace("select","",$text);
 		$text = str_replace("script","",$text);
 		$text = str_replace("union","",$text);
-		$text = mysql_escape_string($text);
 		$text = strip_tags($text);
 		$text = htmlspecialchars($text);
 		return $text;
