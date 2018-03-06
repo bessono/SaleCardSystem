@@ -30,7 +30,14 @@ class main_model extends system_model{
 			$out .= $bml->tableCreate("2",$table_array,"style='border:solid 1px silver; margin:auto;'","style='border:1px solid silver;'");
 		$this->disconnect($link);
 		$out .= $bml->br().$bml->br();
-		print $out;
+		$operation_div = $bml->divOpen("class='panel' style='margin-top:30px;'")."Покупатель произвёл покупку на сумму:".
+			$bml->input("type='text' id='buy_summ' value='0'").
+			$bml->br().
+			$bml->input("type='button' value='Покупатель хочет использовать бонусы' onclick='spendBonuses()'").$bml->br().
+			$bml->input("type='button' value='Покупатель хочет использовать процент'").$bml->br().
+			$bml->input("type='button' value='Произвести покупку с увеличением бонусов'").$bml->br().
+			$bml->divClose();
+		print $out.$operation_div;
 	}
 	
 	public function set_customer_data_form(){
