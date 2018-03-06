@@ -21,7 +21,7 @@
 <table>
 <tr>
 <td>Укажите процент начисления бонуса <br>от сммы покупки</td>
-<td><input type="text" style="width:40px;" value='<?php print $this->view_data['settings']['bonus_percent'] ?>'>%</td>	
+<td><input type="text" style="width:40px;" id="bonus_percent" value='<?php print $this->view_data['settings']['bonus_percent'] ?>'>%</td>	
 </tr>
 </table>
 <input type="button" value="Сохранить процент" onclick='updateBonusPercent();'>

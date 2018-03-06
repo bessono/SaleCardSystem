@@ -16,5 +16,12 @@ class settings_controller extends system_controller{
 			print $result;
 		}
 	}
-	
+
+	public function set_bonus_percent(){
+		$_POST['bonus_percent'] = intval($_POST['bonus_percent']);
+		$model = new settings_model();
+		$result = $model->set_bonus_percent($_POST['bonus_percent']);
+		print $result;
+	}	
 }
+

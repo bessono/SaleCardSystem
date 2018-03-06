@@ -39,4 +39,14 @@ class settings_model extends system_model{
 		$this->disconnect($link);
 		return $out;
 	}
+	
+	public function set_bonus_percent($bonus_percent){
+		$link = $this->connect();
+			if(!mysqli_query($link,"UPDATE settings SET bonus_percent=".$bonus_percent)){
+				return "Ошибка сохранения обратитесь к разработчику";
+			} else {
+				return "Процент сохранён";
+			}
+		$this->disconnect();
+	}
 }

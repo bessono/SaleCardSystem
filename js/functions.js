@@ -40,3 +40,13 @@ function setCardActive(){
 		 }
 	);
 }
+
+function updateBonusPercent(){
+	bonusPercent = jQuery("#bonus_percent").val();
+	jQuery.post("/?mode=settings&method=set_bonus_percent",
+			{bonus_percent:bonusPercent},
+			function(data){
+				alert(data);
+			}
+			);
+}
