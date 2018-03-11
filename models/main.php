@@ -21,6 +21,23 @@ class main_model extends system_model{
 		$link = $this->connect();
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id=".$_POST['card_id']);
 			$result = mysqli_fetch_array($query);
+				
+			if((!isset($result['bonuses'])) || ($result['bonuses'] == "")) {
+				$result['bonuses'] = 0;
+				$bonuses_button = "";
+			} else {
+				$bonuses_button = $bml->input("type='button' value='Покупатель хочет использовать бонусы' onclick='spendBonuses(".$result['bonuses'].")'").$bml->br();
+			}
+			if((!isset($result['percent'])) || ($result['percent'] == "")) {
+                        	$result['percent'] = 0;
+				$percent_button = "";
+                        } else {
+				$percent_button = $bml->input("type='button' value='Покупатель хочет использовать процент'").$bml->br();
+			}
+			if((isset($result['percent'])) && ($result['percent'] <= 4)){
+				$add_percent_button = $bml->input("type='button' value='Произвести покупку с увеличением процента'").$bml->br();
+			} 
+			
 			$table_array = array();
 			array_push($table_array,"ФИО",$result['name'],
 						"Телефон",$result['phone'],
@@ -33,9 +50,10 @@ class main_model extends system_model{
 		$operation_div = $bml->divOpen("class='panel' style='margin-top:30px;'")."Покупатель произвёл покупку на сумму:".
 			$bml->input("type='text' id='buy_summ' value='0'").
 			$bml->br().
-			$bml->input("type='button' value='Покупатель хочет использовать бонусы' onclick='spendBonuses()'").$bml->br().
-			$bml->input("type='button' value='Покупатель хочет использовать процент'").$bml->br().
-			$bml->input("type='button' value='Произвести покупку с увеличением бонусов'").$bml->br().
+			$bonuses_button.
+			$percent_button.
+			$bml->input("type='button' value='Произвести покупку с увеличением бонусов'").$bml->br().	
+			$add_percent_button.
 			$bml->divClose();
 		print $out.$operation_div;
 	}

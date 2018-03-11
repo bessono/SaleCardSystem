@@ -51,3 +51,6 @@ function updateBonusPercent(){
 			);
 }
 
+function spendBonuses(){
+	alert("debug");
+}
