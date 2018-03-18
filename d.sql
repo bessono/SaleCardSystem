@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.11, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
 --
 -- Host: localhost    Database: cardsystem
 -- ------------------------------------------------------
--- Server version	5.7.11-0ubuntu6
+-- Server version	5.7.21-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,10 +29,10 @@ CREATE TABLE `customers` (
   `email` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
-  `percent` int(11) DEFAULT NULL,
-  `bonuses` int(11) DEFAULT NULL,
+  `percent` int(11) DEFAULT '0',
+  `bonuses` float DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,8 +41,35 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (8,'Ð‘ÐµÑÑÐ¾Ð½Ð¾Ð² ÐÐ•','123','jehkw@jhao.ew','+7 978 97636332',NULL,NULL,NULL);
+INSERT INTO `customers` VALUES (10,'Ð‘ÐµÑÑÐ¾Ð½Ð¾Ð² ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€','123','bessono@mail.ru','+74773838',NULL,0,209.14);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `log_report`
+--
+
+DROP TABLE IF EXISTS `log_report`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log_report` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `summ` float DEFAULT NULL,
+  `operation` varchar(255) DEFAULT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `date_time` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `log_report`
+--
+
+LOCK TABLES `log_report` WRITE;
+/*!40000 ALTER TABLE `log_report` DISABLE KEYS */;
+INSERT INTO `log_report` VALUES (1,0,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521363929),(2,1000,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521363948),(3,1000,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521364250);
+/*!40000 ALTER TABLE `log_report` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -99,4 +126,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-06  8:49:16
+-- Dump completed on 2018-03-18 12:28:49

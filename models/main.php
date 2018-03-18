@@ -17,6 +17,10 @@ class main_model extends system_model{
 	
 	public function get_customer_data_form(){
 		$bml = new BAEHTMLlib();
+		include("models/settings.php");
+		$settings_model = new settings_model();
+		$settings = $settings_model->get_settings();
+		
 		$out = $bml->br().$bml->b("Запрос по карте ".$_POST['card_id']." вернул результат:");
 		$link = $this->connect();
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id=".$_POST['card_id']);
@@ -41,18 +45,21 @@ class main_model extends system_model{
 			$table_array = array();
 			array_push($table_array,"ФИО",$result['name'],
 						"Телефон",$result['phone'],
-						"e-mail",$result['phone'],
+						"e-mail",$result['email'],
 						"Процент на скидку",$result['percent'],
-						"Начислено бонусов",$result['bonuses']);
+						"Начислено бонусов",$result['bonuses'],
+						"История",$bml->a("Просмотреть","href='/?mode=main&method=history&param=".$result['id']."'"));
 			$out .= $bml->tableCreate("2",$table_array,"style='border:solid 1px silver; margin:auto;'","style='border:1px solid silver;'");
 		$this->disconnect($link);
 		$out .= $bml->br().$bml->br();
-		$operation_div = $bml->divOpen("class='panel' style='margin-top:30px;'")."Покупатель произвёл покупку на сумму:".
-			$bml->input("type='text' id='buy_summ' value='0'").
+		$operation_div = "Сумма покупки:".
+			$bml->input("type='hidden' id='id' value='".$result['id']."'").
+			$bml->input("type='text' id='buy_summ' value='0' onkeyup='showOperationButtons();'").
+			$bml->divOpen("class='panel' id='operation_buttons' style='margin-top:30px; display:none;'").
 			$bml->br().
 			$bonuses_button.
 			$percent_button.
-			$bml->input("type='button' value='Произвести покупку с увеличением бонусов'").$bml->br().	
+			$bml->input("type='button' value='Произвести покупку с увеличением бонусов на ".$settings['bonus_percent']."% от суммы' onclick='riseBonuses(".$settings['bonus_percent'].")'").$bml->br().	
 			$add_percent_button.
 			$bml->divClose();
 		print $out.$operation_div;
@@ -83,4 +90,33 @@ class main_model extends system_model{
 		$this->disconnect($link);
 	}
 
+	public function rise_bonuses($id,$bonuses,$summ){
+		$link = $this->connect();
+		$date = strtotime(date("d-m-Y H:i:s")); 
+		if((mysqli_query($link, "UPDATE customers SET bonuses=bonuses+".$bonuses." WHERE id=".$id)) && (mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Покупка с увеличением бонуса', customer_id=".$id.", summ=".$summ." "))){
+			return "Операция проведена";
+		} else {
+			return "Ошибкап проведения операции";
+		}
+		$this->disconnect($link);
+	}
+	
+	public function get_history($id){
+		$link = $this->connect();
+		$bml = new BAEHTMLlib();
+		if($query = mysqli_query($link,"SELECT * FROM log_report WHERE customer_id=".$id)){
+
+		 
+			$data_table = array();
+			array_push($data_table,"Дата","Операция","Сумма");
+			while($result = mysqli_fetch_array($query)){
+				array_push($data_table,date("d-m-Y H:i:s",$result['date_time'])
+							,$result['operation']
+							,$result['summ']);
+			}
+			$this->view_data['content'] = $bml->tableCreate(3,$data_table,"style='margin:auto;'","style='border:1px silver solid;'","true");
+			$this->make_view("main/get_history"); 
+		}
+		$this->disconnect($link);
+	}
 }

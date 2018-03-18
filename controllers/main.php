@@ -19,6 +19,20 @@ class main_controller extends system_controller{
 		$this->make_view("main/exit_redirect");
 	}
 	
+	public function rise_bonuses(){
+		$_POST['bonus'] = floatval($_POST['bonus']);
+		$_POST['id'] = intval($_POST['id']);
+		$_POST['summ'] = floatval($_POST['summ']);
+		$model = new main_model();
+		print $model->rise_bonuses($_POST['id'],$_POST['bonus'],$_POST['summ']);
+	}
+
+	public function history($id){
+		$id = intval($id);
+		$model = new main_model();
+		$model->get_history($id);
+	}
+	
 	public function check_card(){
 		if(isset($_POST['card_id'])){
 			$_POST['card_id'] = $this->kill_hack_code($_POST['card_id']);

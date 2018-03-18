@@ -10,7 +10,7 @@
 }
 
 function checkCard(){
-	cardId = jQuery("#card_id").val();
+	var cardId = jQuery("#card_id").val();
 	jQuery.post("/?mode=main&method=check_card",
 				{card_id:cardId},
 				function(data){
@@ -19,11 +19,11 @@ function checkCard(){
 }
 
 function setCardActive(){
-	cCardId = jQuery("#card_id").val();
-	cName = jQuery("#name").val();
-	cPhone = jQuery("#phone").val();
-	cEmail = jQuery("#email").val();
-	cAddress = jQuery("#address").val();
+	var cCardId = jQuery("#card_id").val();
+	var cName = jQuery("#name").val();
+	var cPhone = jQuery("#phone").val();
+	var cEmail = jQuery("#email").val();
+	var cAddress = jQuery("#address").val();
 	if(cCardId == ""){ alert("Номер карты не может быть пустым!"); return 0;}
 	if(cName == ""){ alert("ФИО не может быть пустым!"); return 0;}
 	if(cPhone == ""){ alert("Телефон не может быть пустым!"); return 0;}
@@ -42,7 +42,7 @@ function setCardActive(){
 }
 
 function updateBonusPercent(){
-	bonusPercent = jQuery("#bonus_percent").val();
+	var bonusPercent = jQuery("#bonus_percent").val();
 	jQuery.post("/?mode=settings&method=set_bonus_percent",
 			{bonus_percent:bonusPercent},
 			function(data){
@@ -53,4 +53,27 @@ function updateBonusPercent(){
 
 function spendBonuses(){
 	alert("debug");
+}
+
+function showOperationButtons(){
+	jQuery("#operation_buttons").slideDown();
+}
+
+function riseBonuses(bPercent){
+	var bSumm = jQuery("#buy_summ").val();
+	var ID = jQuery("#id").val();
+	var bSumm = jQuery("#buy_summ").val();
+	bSumm = parseInt(bSumm);
+	bPercent = parseInt(bPercent);
+	bBonus = (bSumm * bPercent) / 100;
+	if(confirm("Вы уверены что желаете провести накопительную операцию на "+bBonus+" бонусов?")){
+		jQuery.post("/?mode=main&method=rise_bonuses"
+			,{bonus:bBonus, id:ID, summ:bSumm}
+			,function(data){
+				alert(data);
+				location.href = "/";
+				});
+	} else {
+		return 0;
+	}
 }

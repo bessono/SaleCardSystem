@@ -17,7 +17,6 @@ class settings_model extends system_model{
                 $link = $this->connect();
                 $query = mysqli_query($link,"SELECT * FROM settings");
                 $res = mysqli_fetch_array($query);
-                          
                 return $res;
         }
 	
