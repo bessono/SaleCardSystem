@@ -7,3 +7,4 @@ exit(0);
 //customer
 //help
 //settings
+//log

@@ -29,8 +29,9 @@ class main_controller extends system_controller{
 
 	public function history($id){
 		$id = intval($id);
-		$model = new main_model();
-		$model->get_history($id);
+		include("models/log.php");
+		$model = new log_model();
+		$model->get_history_by_id($id);
 	}
 	
 	public function check_card(){
@@ -51,6 +52,14 @@ class main_controller extends system_controller{
 		$_POST['email'] = $this->kill_hack_code($_POST['email']);
 		$_POST['address'] = $this->kill_hack_code($_POST['address']);
 		$model->set_card_active($_POST['card_id'],$_POST['name'],$_POST['phone'],$_POST['email'],$_POST['address']);
+	}
+	
+	public function spend_bonuses(){
+		$_POST['summ'] = floatval($_POST['summ']);
+		$_POST['bonuses'] = floatval($_POST['bonuses']);
+		$_POST['id'] = intval($_POST['id']); 
+		$model = new main_model();
+		$model->spend_bonuses($_POST['summ'],$_POST['bonuses'],$_POST['id']);
 	}
 	
 }

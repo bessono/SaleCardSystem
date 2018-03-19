@@ -1,8 +1,11 @@
 <?php
+
 include("./system/config.php");
 include("./system/system_controller.php");
 include("./system/system_model.php");
 include("./system/bae_html_lib.php");
+include("./system/elements.php");
+
 //router
 if(!isset($_GET['mode'])) { $_GET['mode'] = "main";}
 if(!isset($_GET['method'])) {$_GET['method'] = "start_form";}

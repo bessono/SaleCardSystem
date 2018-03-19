@@ -30,7 +30,7 @@ class main_model extends system_model{
 				$result['bonuses'] = 0;
 				$bonuses_button = "";
 			} else {
-				$bonuses_button = $bml->input("type='button' value='Покупатель хочет использовать бонусы' onclick='spendBonuses(".$result['bonuses'].")'").$bml->br();
+				$bonuses_button = $bml->input("type='button' value='Покупатель хочет использовать бонусы' onclick='spendBonuses(".$result['bonuses'].",".$result['id'].")'").$bml->br();
 			}
 			if((!isset($result['percent'])) || ($result['percent'] == "")) {
                         	$result['percent'] = 0;
@@ -48,7 +48,7 @@ class main_model extends system_model{
 						"e-mail",$result['email'],
 						"Процент на скидку",$result['percent'],
 						"Начислено бонусов",$result['bonuses'],
-						"История",$bml->a("Просмотреть","href='/?mode=main&method=history&param=".$result['id']."'"));
+						"История",$bml->a("Просмотреть","target='blank' href='/?mode=main&method=history&param=".$result['id']."'"));
 			$out .= $bml->tableCreate("2",$table_array,"style='border:solid 1px silver; margin:auto;'","style='border:1px solid silver;'");
 		$this->disconnect($link);
 		$out .= $bml->br().$bml->br();
@@ -86,6 +86,8 @@ class main_model extends system_model{
 				print "Ошибка регистрации карты, обратитесь к разработчику";
 			} else {
 				print "Карта зарегистрированна на ".$name;
+				$date = strtotime(date("d-m-Y H:i:s"));
+				mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Активизированна карта ".$card_id."', summ=, summ=0");
 			}
 		$this->disconnect($link);
 	}
@@ -117,6 +119,24 @@ class main_model extends system_model{
 			$this->view_data['content'] = $bml->tableCreate(3,$data_table,"style='margin:auto;'","style='border:1px silver solid;'","true");
 			$this->make_view("main/get_history"); 
 		}
+		$this->disconnect($link);
+	}
+
+	public function spend_bonuses($summ,$bonuses,$id){
+		$link = $this->connect();
+		$date = strtotime(date("d-m-Y H:i:s"));
+		if($summ > $bonuses){
+			$n_summ = $summ-$bonuses;
+			mysqli_query($link,"UPDATE customers SET bonuses=0 WHERE id=".$id);
+			mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Покупка с использованием ".$bonuses." бонусов: ".$bonuses."-".$summ."=".$n_summ."(к оплате)', summ=".$summ.", customer_id=".$id);
+		} else {
+			$n_bonuses = $bonuses-$summ;
+			$n_summ = 0;
+			//exit("INSERT INTO log_report SET date_time=".$date.", operation='Покупка с использованием ".$bonuses." бонусов: ".$bonuses."-".$summ."=".$n_summ."', summ='".$summ."'");
+			mysqli_query($link,"UPDATE customers SET bonuses=".$n_bonuses." WHERE id=".$id);
+                        mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Покупка с использованием ".$bonuses." бонусов: ".$bonuses."-".$summ."=".$n_summ."(к оплате)', summ=".$summ.", customer_id=".$id);
+		}
+		print "Операция проведенна";
 		$this->disconnect($link);
 	}
 }

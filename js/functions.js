@@ -51,8 +51,21 @@ function updateBonusPercent(){
 			);
 }
 
-function spendBonuses(){
-	alert("debug");
+function spendBonuses(cBonuses,cID){
+	var cSumm = jQuery("#buy_summ").val();
+	cBonuses = parseFloat(cBonuses);
+	cID = parseInt(cID);
+	cSumm = parseInt(cSumm);
+	var newSumm = cSumm-cBonuses;
+	if(confirm("Вы точно желаете провести операцию "+cSumm+"-"+cBonuses+"="+newSumm)){
+		jQuery.post("/?mode=main&method=spend_bonuses",{
+					summ:cSumm,
+					bonuses:cBonuses,
+					id:cID
+					}, function(data){ alert(data); location.href="/";});	
+	} else {
+		return 0;
+	}
 }
 
 function showOperationButtons(){
@@ -76,4 +89,14 @@ function riseBonuses(bPercent){
 	} else {
 		return 0;
 	}
+}
+
+function getLogRecordByDate(){
+	var sYear = jQuery("#year").val();
+	var sMonth = jQuery("#month").val();
+	jQuery.post("/?mode=log&method=ajax_get_log_by_date",{year:sYear, month:sMonth},
+		function(data){
+			jQuery("#container").html(data);
+		}
+	);
 }
