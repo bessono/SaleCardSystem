@@ -1,3 +1,4 @@
+<?php if((isset($_SESSION['login'])) && ($_SESSION['level'] != "")) { ?>
 <div style='margin:auto; text-align:center; margin-top:20px; margin-bottom:20px; width:500px; height:30px; padding-top:15px; border-radius:5px; background-image: url("/images/background.png");'>
 <?php
 if((isset($_SESSION['login'])) && ($_SESSION['login'] == 1)){
@@ -9,4 +10,5 @@ if((isset($_SESSION['login'])) && ($_SESSION['login'] == 1)){
 	print "<a href='/?mode=main&method=log_out' class='menu_link'>Выход</a>";
 } ?>
 </div>
+<?php } ?>
 
