@@ -32,7 +32,7 @@ CREATE TABLE `customers` (
   `percent` int(11) DEFAULT '0',
   `bonuses` float DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (10,'Ð‘ÐµÑÑÐ¾Ð½Ð¾Ð² ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€','123','bessono@mail.ru','+74773838',NULL,0,209.14);
+INSERT INTO `customers` VALUES (10,'Ð‘ÐµÑÑÐ¾Ð½Ð¾Ð² ÐÐ»ÐµÐºÑÐ°Ð½Ð´Ñ€','123','bessono@mail.ru','+74773838',NULL,0,0),(11,'ÐÐ¾Ð²Ð¾ÑÑ‘Ð»Ð¾Ð² ÐÐ•','1234','','9883773383',NULL,0,12);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `log_report` (
   `customer_id` int(11) DEFAULT NULL,
   `date_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `log_report` (
 
 LOCK TABLES `log_report` WRITE;
 /*!40000 ALTER TABLE `log_report` DISABLE KEYS */;
-INSERT INTO `log_report` VALUES (1,0,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521363929),(2,1000,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521363948),(3,1000,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521364250);
+INSERT INTO `log_report` VALUES (1,0,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521363929),(2,1000,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521363948),(3,1000,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521364250),(4,600,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',10,1521442022),(5,0,'ÐÐºÑ‚Ð¸Ð²Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð° ÐºÐ°Ñ€Ñ‚Ð° 1234',NULL,1521446885),(6,600,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸ÐµÐ¼ Ð±Ð¾Ð½ÑƒÑÐ°',11,1521446908),(7,1,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼ 191.14 Ð±Ð¾Ð½ÑƒÑÐ¾Ð²: 191.14-1=0',NULL,1521449067),(8,90,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼ 190.14 Ð±Ð¾Ð½ÑƒÑÐ¾Ð²: 190.14-90=0',10,1521449180),(9,50,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼ 100.14 Ð±Ð¾Ð½ÑƒÑÐ¾Ð²: 100.14-50=0(Ðº Ð¾Ð¿Ð»Ð°Ñ‚Ðµ)',10,1521449241),(10,1000,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼ 50.14 Ð±Ð¾Ð½ÑƒÑÐ¾Ð²: 50.14-1000=949.86',10,1521449265),(11,0,'ÐŸÐ¾ÐºÑƒÐ¿ÐºÐ° Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼ 0 Ð±Ð¾Ð½ÑƒÑÐ¾Ð²: 0-0=0(Ðº Ð¾Ð¿Ð»Ð°Ñ‚Ðµ)',0,1521449351);
 /*!40000 ALTER TABLE `log_report` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,4 +126,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-18 12:28:49
+-- Dump completed on 2018-03-19 11:57:30
