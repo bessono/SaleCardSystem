@@ -41,7 +41,7 @@ class main_model extends system_model{
 			}
 			$process_button = "";
 			if($result['percent'] == 0){
-				$process_button = $bml->input("type='button' value='Произвести покупку с увеличением бонусов на ".$settings['bonus_percent']."% от суммы' onclick='riseBonuses(".$settings['bonus_percent'].")'").$bml->br();
+				$process_button = $bml->input("type='button' value='Провести покупку' onclick='riseBonuses(".$settings['bonus_percent'].")'").$bml->br();
 
 			}
 			

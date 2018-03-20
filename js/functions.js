@@ -105,6 +105,7 @@ function riseBonuses(bPercent){
 				alert(data);
 				if(bSumm < 3000) {location.href = "/";}
 				});
+		if(bSumm > 3000){
 		jQuery.post("/?mode=main&method=rise_percent"
 			,{id:ID, summ:bSumm}
 			,function(data){
@@ -112,6 +113,7 @@ function riseBonuses(bPercent){
 				location.href = "/";
 			}
 			);
+		}
 		
 	} else {
 		return 0;
