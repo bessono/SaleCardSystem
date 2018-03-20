@@ -1,4 +1,4 @@
-<div class="panel" style="text-align:center;">
+<div class="panel" style="text-align:center; background-image: url('/images/background.png');">
 	Просмотр ведомости
 	<?php
 	$elements = new elements();

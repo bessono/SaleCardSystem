@@ -19,6 +19,13 @@ class main_controller extends system_controller{
 		$this->make_view("main/exit_redirect");
 	}
 	
+	public function rise_percent(){
+		$_POST['id'] = intval($_POST['id']);
+                $_POST['summ'] = floatval($_POST['summ']);
+                $model = new main_model();
+           	$model->rise_percent($_POST['id'],$_POST['summ']);
+		}
+	
 	public function rise_bonuses(){
 		$_POST['bonus'] = floatval($_POST['bonus']);
 		$_POST['id'] = intval($_POST['id']);
@@ -61,5 +68,13 @@ class main_controller extends system_controller{
 		$model = new main_model();
 		$model->spend_bonuses($_POST['summ'],$_POST['bonuses'],$_POST['id']);
 	}
+
+	public function spend_percent(){
+                $_POST['summ'] = floatval($_POST['summ']);
+                $_POST['percent'] = floatval($_POST['percent']);
+                $_POST['id'] = intval($_POST['id']);
+                $model = new main_model();
+                $model->spend_percent($_POST['summ'],$_POST['percent'],$_POST['id']);
+        }
 	
 }

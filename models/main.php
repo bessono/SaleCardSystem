@@ -25,22 +25,25 @@ class main_model extends system_model{
 		$link = $this->connect();
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id=".$_POST['card_id']);
 			$result = mysqli_fetch_array($query);
-				
-			if((!isset($result['bonuses'])) || ($result['bonuses'] == "")) {
+			$bonuses_button = "";
+			$percent_button = "";	
+			if((!isset($result['bonuses'])) || ($result['bonuses'] == 0)) {
 				$result['bonuses'] = 0;
 				$bonuses_button = "";
 			} else {
-				$bonuses_button = $bml->input("type='button' value='Покупатель хочет использовать бонусы' onclick='spendBonuses(".$result['bonuses'].",".$result['id'].")'").$bml->br();
+				$bonuses_button = $bml->input("type='button' value='Использовать бонусы' onclick='spendBonuses(".$result['bonuses'].",".$result['id'].")'").$bml->br();
 			}
-			if((!isset($result['percent'])) || ($result['percent'] == "")) {
+			if((!isset($result['percent'])) || ($result['percent'] == 0)) {
                         	$result['percent'] = 0;
 				$percent_button = "";
                         } else {
-				$percent_button = $bml->input("type='button' value='Покупатель хочет использовать процент'").$bml->br();
+				$percent_button = $bml->input("type='button' value='Использовать процент' onclick='spendPercent(".$result['percent'].",".$result['id'].")'").$bml->br();
 			}
-			if((isset($result['percent'])) && ($result['percent'] <= 4)){
-				$add_percent_button = $bml->input("type='button' value='Произвести покупку с увеличением процента'").$bml->br();
-			} 
+			$process_button = "";
+			if($result['percent'] == 0){
+				$process_button = $bml->input("type='button' value='Произвести покупку с увеличением бонусов на ".$settings['bonus_percent']."% от суммы' onclick='riseBonuses(".$settings['bonus_percent'].")'").$bml->br();
+
+			}
 			
 			$table_array = array();
 			array_push($table_array,"ФИО",$result['name'],
@@ -57,10 +60,10 @@ class main_model extends system_model{
 			$bml->input("type='text' id='buy_summ' value='0' onkeyup='showOperationButtons();'").
 			$bml->divOpen("class='panel' id='operation_buttons' style='margin-top:30px; display:none;'").
 			$bml->br().
+			$process_button.	
+			$bml->hr().
 			$bonuses_button.
-			$percent_button.
-			$bml->input("type='button' value='Произвести покупку с увеличением бонусов на ".$settings['bonus_percent']."% от суммы' onclick='riseBonuses(".$settings['bonus_percent'].")'").$bml->br().	
-			$add_percent_button.
+                        $percent_button.	
 			$bml->divClose();
 		print $out.$operation_div;
 	}
@@ -90,6 +93,24 @@ class main_model extends system_model{
 				mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Активизированна карта ".$card_id."', summ=, summ=0");
 			}
 		$this->disconnect($link);
+	}
+
+	public function rise_percent($id,$summ){
+		$link = $this->connect();
+		$date = strtotime(date("d-m-Y H:i:s"));
+		$percent = 0;
+		if($summ >= 3000) {$percent = 2;}
+		if($summ >= 6000) {$percent = 3;}
+		if($summ >= 9000) {$percent = 5;}
+		//exit("UPDATE customers SET percent=percent+".$percent." WHERE id=".$id."  ---    INSERT INTO log_report SET date_time=".$date.", operation='Покупка с увеличением процента: ".$percent."%', customer_id=".$id.", summ=".$summ." ");
+		if($percent != 0){
+		if((mysqli_query($link,"UPDATE customers SET percent=percent+".$percent." WHERE id=".$id)) && (mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Покупка с увеличением процента', customer_id=".$id.", summ=".$summ." "))){
+			print "Добавлен процент дисконта: ".$percent."%";
+		} else {
+			print "Ошибка добавления процента. Обратитесь к разработчику".mysqli_error();
+		}
+		}
+		$this->disconnect($link);	
 	}
 
 	public function rise_bonuses($id,$bonuses,$summ){
@@ -139,4 +160,18 @@ class main_model extends system_model{
 		print "Операция проведенна";
 		$this->disconnect($link);
 	}
+
+	public function spend_percent($summ,$percent,$id){
+                $link = $this->connect();
+                $date = strtotime(date("d-m-Y H:i:s"));
+                        $n_percent = ($summ * $percent) / 100;
+                        $n_summ = $summ - $n_percent;
+                       
+                        mysqli_query($link,"UPDATE customers SET percent=0 WHERE id=".$id);
+                        mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Покупка с использованием процента: ".$summ."-".$n_percent."(".$percent."%)=".$n_summ."', summ=".$summ.", customer_id=".$id);
+                
+                print "Операция проведенна";
+                $this->disconnect($link);
+        }
+
 }

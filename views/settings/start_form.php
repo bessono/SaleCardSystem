@@ -1,4 +1,4 @@
-<div class="panel" style="width:600px; margin:auto;">
+<div class="panel" style="width:600px; margin:auto; background-image: url('/images/background.png');">
 <h3 style="text-align:center;">
 Настройка программы
 </h3>
