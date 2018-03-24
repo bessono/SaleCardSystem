@@ -26,5 +26,29 @@
 </table>
 <input type="button" value="Сохранить процент" onclick='updateBonusPercent();'>
 </fieldset>
+<fieldset>
+<legend>Настройка типа начисления дисконтного процента</legend>
+<span style="margin:auto;">При изменении типа досконтный процент и бонусы сохраняются</span>
+<table>
+<tr>
+<td>
+Система парога покупки: Начисление дисконтного процента производится в зависиммости от суммы <b>покупки</b>.<br>
+3000р. = 2%<br>
+6000р. = 3%<br>
+9000р. = 5%<br>
+</td>
+<td>
+<input type="radio" id="percent_system_old" name="percent_system" value="old" <?php if($view_data['settings']['percent_system'] == "old") print "checked=\"check\""; ?>>
+</td>
+</tr>
+<tr>
+<td>Система по увеличению пожизненого процента на карточке, согласно порогу <b>общей</b> суммы покупки:</td>
+<td><br><input type="radio" id="percent_system_new" name="percent_system" value="new" <?php if($view_data['settings']['percent_system'] == "new") print "checked=\"check\""; ?>><br><br>
+Укажите порог:<input type="text" id="percent_step" value="<?php print $this->view_data['settings']['percent_step']; ?>">р.
+</td>
+</tr>
+</table>
+<input type="button" value="Сохранить" onclick="setPercentSystem();">
+</fieldset>
 </div>
 

@@ -129,3 +129,15 @@ function getLogRecordByDate(){
 		}
 	);
 }
+
+function setPercentSystem(){
+	var percentSystem = "new";
+	var percentStep = jQuery("#percent_step").val();
+	if(document.getElementById("percent_system_old").checked){
+			percentSystem = "old";
+	}
+	jQuery.post("/?mode=settings&method=ajax_set_percent_system",
+							{percent_system:percentSystem,
+							 percent_step:percentStep	
+							}, function(data){alert(data);});
+}

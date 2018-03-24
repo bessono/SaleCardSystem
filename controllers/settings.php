@@ -29,5 +29,15 @@ class settings_controller extends system_controller{
 		$result = $model->set_bonus_percent($_POST['bonus_percent']);
 		print $result;
 	}	
+	
+	public function ajax_set_percent_system(){
+		$_POST['percent_step'] = floatval($_POST['percent_step']);
+		if(strlen($_POST['percent_system'] >= 4)){
+			exit("Data false");
+		}
+		$model = new settings_model();
+		$model->ajax_set_percent_system($_POST['percent_system']);
+		$model->ajax_set_percent_step($_POST['percent_step']);
+	}
 }
 

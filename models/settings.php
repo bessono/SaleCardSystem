@@ -48,4 +48,24 @@ class settings_model extends system_model{
 			}
 		$this->disconnect();
 	}
+	
+	public function ajax_set_percent_system($percent_system){
+		$link = $this->connect();
+			if(!mysqli_query($link,"UPDATE settings SET percent_system='".$percent_system."'")){
+				print "Ошибка сохранения системы скидок ";
+			} else {
+				print "Система скидок сохранена ";
+			}
+		$this->disconnect($link);
+	}
+	
+	public function ajax_set_percent_step($percent_step){
+		$link = $this->connect();
+			if(!mysqli_query($link,"UPDATE settings SET percent_step=".$percent_step)){
+				print "Ошибка сохранения порога ";
+			} else {
+				print "Порог сохранён ";
+			}
+		$this->disconnect($link);
+	}
 }

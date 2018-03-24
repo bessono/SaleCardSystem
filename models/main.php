@@ -1,13 +1,22 @@
 ﻿<?php
+include("models/settings.php");
 
 class main_model extends system_model{
 
 	public function check_card($card_id){
+		
+		$settings_model = new settings_model();
+		$settings = $settings_model->get_settings();
 		$link = $this->connect();
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id = '".$card_id."'");
 			$res = mysqli_fetch_array($query);
 			if(isset($res['id'])){
-				$this->get_customer_data_form();
+				if($settings['percent_system'] == "old"){
+					$this->get_customer_data_form_old_system();
+				} else {
+					$this->get_customer_data_form_new_system();
+				}
+			
 			} else {
 				$this->set_customer_data_form();
 			}
@@ -15,9 +24,9 @@ class main_model extends system_model{
 		
 	}
 	
-	public function get_customer_data_form(){
+	public function get_customer_data_form_old_system(){
 		$bml = new BAEHTMLlib();
-		include("models/settings.php");
+		
 		$settings_model = new settings_model();
 		$settings = $settings_model->get_settings();
 		
@@ -45,17 +54,11 @@ class main_model extends system_model{
 
 			}
 			
-			$table_array = array();
-			array_push($table_array,"ФИО",$result['name'],
-						"Телефон",$result['phone'],
-						"e-mail",$result['email'],
-						"Процент на скидку",$result['percent'],
-						"Начислено бонусов",$result['bonuses'],
-						"История",$bml->a("Просмотреть","target='blank' href='/?mode=main&method=history&param=".$result['id']."'"));
+			$table_array = $this->get_table($result);
 			$out .= $bml->tableCreate("2",$table_array,"style='border:solid 1px silver; margin:auto;'","style='border:1px solid silver;'");
-		$this->disconnect($link);
-		$out .= $bml->br().$bml->br();
-		$operation_div = "Сумма покупки:".
+			$this->disconnect($link);
+			$out .= $bml->br().$bml->br();
+			$operation_div = "Сумма покупки:".
 			$bml->input("type='hidden' id='id' value='".$result['id']."'").
 			$bml->input("type='text' id='buy_summ' value='0' onkeyup='showOperationButtons();'").
 			$bml->divOpen("class='panel' id='operation_buttons' style='margin-top:30px; display:none;'").
@@ -66,6 +69,18 @@ class main_model extends system_model{
                         $percent_button.	
 			$bml->divClose();
 		print $out.$operation_div;
+	}
+	
+	private function get_table($result){
+		$table_array = array();
+		$bml = new BAEHTMLlib();
+		array_push($table_array,"ФИО",$result['name'],
+						"Телефон",$result['phone'],
+						"e-mail",$result['email'],
+						"Процент на скидку",$result['percent'],
+						"Начислено бонусов",$result['bonuses'],
+						"История",$bml->a("Просмотреть","target='blank' href='/?mode=main&method=history&param=".$result['id']."'"));
+		return $table_array;				
 	}
 	
 	public function set_customer_data_form(){
