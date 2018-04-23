@@ -13,7 +13,9 @@
 	color:navy;
 	margin:auto
 }
-
+.center {
+        margin:auto;
+}
 .menu_link {
 	font-size:12px;
 	margin:5px;

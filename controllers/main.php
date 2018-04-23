@@ -76,5 +76,14 @@ class main_controller extends system_controller{
                 $model = new main_model();
                 $model->spend_percent($_POST['summ'],$_POST['percent'],$_POST['id']);
         }
+        
+        public function get_new_system_buttons(){
+                $model = new main_model();
+                $model->get_new_system_buttons($_POST['summ'],$_POST['card_id']);
+        }
+        
+        public function set_new_system_buy(){
+            var_dump($_POST);
+        }
 	
 }

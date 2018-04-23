@@ -14,7 +14,7 @@ class main_model extends system_model{
 				if($settings['percent_system'] == "old"){
 					$this->get_customer_data_form_old_system();
 				} else {
-					$this->get_customer_data_form_new_system();
+					$this->get_customer_data_form_new_system($card_id);
 				}
 			
 			} else {
@@ -24,12 +24,69 @@ class main_model extends system_model{
 		
 	}
 	
+        function get_customer_data_form_new_system($card_id){
+            $bml = new BAEHTMLLib();
+            $link = $this->connect();
+            if($query = mysqli_query($link, "SELECT * FROM customers WHERE card_id=".$card_id)){
+                $result = mysqli_fetch_array($query);
+                $table_array = $this->get_table($result);
+                $out = $bml->tableCreate(2, $table_array, "class='center'", "", true).
+                $bml->divOpen("class='panel center'").
+                "Укажите сумму покупки:".
+                $bml->input(" type='text' name='summ' id='summ' onkeyup='getNewSystemButtons(this.value)' ").
+                $bml->divClose().
+                $bml->divOpen("id='container'").$bml->divClose();
+                
+            } else {
+                $out = "Ошибка возврата данных по этой карте.";
+            }
+            $this->disconnect($link);
+            
+            
+            print $out;
+            
+        }
+        
+        private function get_current_percent_by_card_id($card_id){
+            $link = $this->connect();
+            $query = mysqli_query($link,"SELECT bonuses FROM customers WHERE card_id=".$card_id);
+            $result = mysqli_fetch_array($query);
+            $this->disconnect($link);
+            return $result[0];
+        }
+        
+        public function get_new_system_buttons($summ,$card_id){
+            $current_percent = $this->get_current_percent_by_card_id($card_id);
+            $settings_model = new settings_model();
+            $bml = new BAEHTMLLib();
+            $settings = $settings_model->get_settings();
+            $out = "Сумма покупки = ".$summ;
+            if($summ >= $settings['percent_step']){
+                $out .= $bml->br()."Сумма ".$bml->b("привышает","style='color:red;'")." порог начисления +1% пожизненого процента".
+                        $bml->br()."После покупки будет начислен процент +1%";
+                        $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",1,".$card_id.");'");
+            } else {
+                        $out .= $bml->br()."Сумма ".$bml->b("не привышает")." порог начисления +1% пожизненого процента";
+                        $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",0,".$card_id.");'");
+            }
+            $out .= $bml->divOpen("class='panel center' style='width:200px;'");
+            if($current_percent > 0){
+                $t_summ = ($summ * $current_percent)/100;
+                $summ -= $t_summ;
+                $out .= "Клиент имеет ".$current_percent."% пожизненой скидки. ";
+                
+            } 
+            $out .= "К оплате ".$summ;
+            $out .= $bml->divClose();
+            $out .= $bml->br().$button;
+                
+            print $out;
+        }
+        
 	public function get_customer_data_form_old_system(){
 		$bml = new BAEHTMLlib();
-		
 		$settings_model = new settings_model();
 		$settings = $settings_model->get_settings();
-		
 		$out = $bml->br().$bml->b("Запрос по карте ".$_POST['card_id']." вернул результат:");
 		$link = $this->connect();
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id=".$_POST['card_id']);

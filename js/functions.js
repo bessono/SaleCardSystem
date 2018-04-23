@@ -141,3 +141,25 @@ function setPercentSystem(){
 							 percent_step:percentStep	
 							}, function(data){alert(data);});
 }
+
+function setNewSystemBuy(oSumm,plusPercent,cardId){
+    jQuery.post("/?mode=main&method=set_new_system_buy",{
+        summ:oSumm,
+        add_bonuses:plusPercent,
+        card_id:cardId
+    },function(data){
+        alert(data);
+        location.href = '/';
+    });
+}
+
+function getNewSystemButtons(oSumm){
+    if(oSumm == ""){ jQuery("#container").html(""); return 0;}
+    oSumm = parseInt(oSumm);
+    var cardID = jQuery("#card_id").val();
+    jQuery.post("/?mode=main&method=get_new_system_buttons",{summ:oSumm,card_id:cardID},
+        function(data){
+            jQuery("#container").html(data);
+        }
+    );
+}
