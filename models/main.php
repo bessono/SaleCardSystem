@@ -67,7 +67,7 @@ class main_model extends system_model{
             
             if($summ >= $settings['percent_step']){
                         $out .= $bml->br()."Сумма ".$bml->b("привышает","style='color:red;'")." порог начисления +1% пожизненого процента".
-                        $bml->br()."После покупки будет начислен процент +1%";
+                        $bml->br()." После покупки будет начислен процент +1% ";
                         $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",1,".$card_id.",".$t_summ.");'");
             
                         if($current_percent > 0){
@@ -79,7 +79,7 @@ class main_model extends system_model{
                 
                         }
             } else {
-                        $out .= $bml->br()."Сумма ".$bml->b("не привышает")." порог начисления +1% пожизненого процента";
+                        $out .= $bml->br()."Сумма ".$bml->b("не привышает")." порог начисления +1% пожизненого процента ";
                         $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",0,".$card_id.",".$t_summ.");'");
                         $out .= "К оплате ".$summ;
                         if($current_percent > 0){
@@ -102,7 +102,7 @@ class main_model extends system_model{
 		$bml = new BAEHTMLlib();
 		$settings_model = new settings_model();
 		$settings = $settings_model->get_settings();
-		$out = $bml->br().$bml->b("Запрос по карте ".$_POST['card_id']." вернул результат:");
+		$out = $bml->br().$bml->b(" Запрос по карте ".$_POST['card_id']." вернул результат: ");
 		$link = $this->connect();
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id=".$_POST['card_id']);
 			$result = mysqli_fetch_array($query);
