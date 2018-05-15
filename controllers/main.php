@@ -83,7 +83,15 @@ class main_controller extends system_controller{
         }
         
         public function set_new_system_buy(){
-            var_dump($_POST);
+            $model = new main_model();
+            //var_dump($_POST);
+            if($_POST['add_percent'] > 0){
+                $model->addOnePercent($_POST['id']);
+            } else {
+                $model->rise_bonuses($_POST['id'], 1, $_POST['summ']);
+            }
+            $model->spend_money($_POST['card_id'], $_POST['summ'],$_POST['t_summ'],$_POST['id']);
+            
         }
 	
 }

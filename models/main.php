@@ -34,6 +34,7 @@ class main_model extends system_model{
                 $bml->divOpen("class='panel center'").
                 "Укажите сумму покупки:".
                 $bml->input(" type='text' name='summ' id='summ' onkeyup='getNewSystemButtons(this.value)' ").
+                $bml->input(" type='hidden' name='id' id='id' value='".$result['id']."' ").
                 $bml->divClose().
                 $bml->divOpen("id='container'").$bml->divClose();
                 
@@ -49,7 +50,7 @@ class main_model extends system_model{
         
         private function get_current_percent_by_card_id($card_id){
             $link = $this->connect();
-            $query = mysqli_query($link,"SELECT bonuses FROM customers WHERE card_id=".$card_id);
+            $query = mysqli_query($link,"SELECT percent FROM customers WHERE card_id=".$card_id);
             $result = mysqli_fetch_array($query);
             $this->disconnect($link);
             return $result[0];
@@ -61,22 +62,36 @@ class main_model extends system_model{
             $bml = new BAEHTMLLib();
             $settings = $settings_model->get_settings();
             $out = "Сумма покупки = ".$summ;
+            $t_summ = 0;
+            
+            
             if($summ >= $settings['percent_step']){
-                $out .= $bml->br()."Сумма ".$bml->b("привышает","style='color:red;'")." порог начисления +1% пожизненого процента".
+                        $out .= $bml->br()."Сумма ".$bml->b("привышает","style='color:red;'")." порог начисления +1% пожизненого процента".
                         $bml->br()."После покупки будет начислен процент +1%";
-                        $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",1,".$card_id.");'");
+                        $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",1,".$card_id.",".$t_summ.");'");
+            
+                        if($current_percent > 0){
+                            $t_summ = ($summ * $current_percent)/100;
+                            $t_summ = $summ - $t_summ;
+                            $out .= "Клиент имеет ".$current_percent."% пожизненой скидки. ";
+                            $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",1,".$card_id.",".$t_summ.");'");
+                            $out .= "К оплате ".$t_summ;
+                
+                        }
             } else {
                         $out .= $bml->br()."Сумма ".$bml->b("не привышает")." порог начисления +1% пожизненого процента";
-                        $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",0,".$card_id.");'");
+                        $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",0,".$card_id.",".$t_summ.");'");
+                        $out .= "К оплате ".$summ;
+                        if($current_percent > 0){
+                            $t_summ = ($summ * $current_percent)/100;
+                            $t_summ = $summ - $t_summ;
+                            $out .= "Клиент имеет ".$current_percent."% пожизненой скидки. ";
+                            $button = $bml->input("type='button' value='Провести покупку' onclick='setNewSystemBuy(".$summ.",0,".$card_id.",".$t_summ.");'");
+                            $out .= "К оплате ".$t_summ;
+                
+                        }
             }
             $out .= $bml->divOpen("class='panel center' style='width:200px;'");
-            if($current_percent > 0){
-                $t_summ = ($summ * $current_percent)/100;
-                $summ -= $t_summ;
-                $out .= "Клиент имеет ".$current_percent."% пожизненой скидки. ";
-                
-            } 
-            $out .= "К оплате ".$summ;
             $out .= $bml->divClose();
             $out .= $bml->br().$button;
                 
@@ -171,6 +186,7 @@ class main_model extends system_model{
 		$link = $this->connect();
 		$date = strtotime(date("d-m-Y H:i:s"));
 		$percent = 0;
+                if($summ < 3000) return false;
 		if($summ >= 3000) {$percent = 2;}
 		if($summ >= 6000) {$percent = 3;}
 		if($summ >= 9000) {$percent = 5;}
@@ -184,6 +200,12 @@ class main_model extends system_model{
 		}
 		$this->disconnect($link);	
 	}
+        
+        public function addOnePercent($id){
+            $link = $this->connect();
+            mysqli_query($link,"UPDATE customers SET percent=percent+1 WHERE id=".$id);
+            $this->disconnect($link);
+        }
 
 	public function rise_bonuses($id,$bonuses,$summ){
 		$link = $this->connect();
@@ -229,11 +251,13 @@ class main_model extends system_model{
 			mysqli_query($link,"UPDATE customers SET bonuses=".$n_bonuses." WHERE id=".$id);
                         mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Покупка с использованием ".$bonuses." бонусов: ".$bonuses."-".$summ."=".$n_summ."(к оплате)', summ=".$summ.", customer_id=".$id);
 		}
+                $this->rise_percent($id, $summ);
 		print "Операция проведенна";
 		$this->disconnect($link);
 	}
 
 	public function spend_percent($summ,$percent,$id){
+                
                 $link = $this->connect();
                 $date = strtotime(date("d-m-Y H:i:s"));
                         $n_percent = ($summ * $percent) / 100;
@@ -243,7 +267,20 @@ class main_model extends system_model{
                         mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", operation='Покупка с использованием процента: ".$summ."-".$n_percent."(".$percent."%)=".$n_summ."', summ=".$summ.", customer_id=".$id);
                 
                 print "Операция проведенна";
+                $this->rise_percent($id, $summ);
                 $this->disconnect($link);
+        }
+        
+        public function spend_money($card_id,$summ,$t_summ,$id){
+            $link = $this->connect();
+                $date = strtotime(date("d-m-Y H:i:s"));
+                if($t_summ == 0){
+                    mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", summ=".$summ.", operation='Покупка на сумму ".$summ."', customer_id=".$id);
+                } else {
+                    mysqli_query($link,"INSERT INTO log_report SET date_time=".$date.", summ=".$summ.", operation='Покупка c использованием процента сумма=".$summ." к оплате ".$t_summ."', customer_id=".$id);
+                }
+                print "Операция проведена";
+            $this->disconnect($link);
         }
 
 }

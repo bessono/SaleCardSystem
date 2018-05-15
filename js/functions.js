@@ -1,4 +1,5 @@
-﻿function update_pins(){
+
+function update_pins(){
 	var pinAdmin = jQuery("#pin_manager").val();
 	var pinManager = jQuery("#pin_admin").val();
 	jQuery.post("/?mode=settings&method=update_pins",
@@ -142,11 +143,15 @@ function setPercentSystem(){
 							}, function(data){alert(data);});
 }
 
-function setNewSystemBuy(oSumm,plusPercent,cardId){
+function setNewSystemBuy(oSumm,plusPercent,cardId,tSumm){
+    tSumm = parseInt(tSumm);
+    var ID = jQuery("#id").val();
     jQuery.post("/?mode=main&method=set_new_system_buy",{
+        id:ID,
         summ:oSumm,
-        add_bonuses:plusPercent,
-        card_id:cardId
+        add_percent:plusPercent,
+        card_id:cardId,
+        t_summ:tSumm
     },function(data){
         alert(data);
         location.href = '/';
