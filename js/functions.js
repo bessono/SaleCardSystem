@@ -162,7 +162,8 @@ function getNewSystemButtons(oSumm){
     if(oSumm == ""){ jQuery("#container").html(""); return 0;}
     oSumm = parseInt(oSumm);
     var cardID = jQuery("#card_id").val();
-    jQuery.post("/?mode=main&method=get_new_system_buttons",{summ:oSumm,card_id:cardID},
+	var ID = jQuery("#id").val();
+    jQuery.post("/?mode=main&method=get_new_system_buttons",{summ:oSumm,card_id:cardID,id:ID},
         function(data){
             jQuery("#container").html(data);
         }

@@ -9,13 +9,13 @@ class log_model extends system_model{
 
 
                         $data_table = array();
-                        array_push($data_table,"Дата","Операция","Сумма");
+                        array_push($data_table,"Дата","Операция","Сумма","К оплате");
                         while($result = mysqli_fetch_array($query)){
                                 array_push($data_table,date("d-m-Y H:i:s",$result['date_time'])
                                                         ,$result['operation']
-                                                        ,$result['summ']);
+                                                        ,$result['summ'],$result['t_summ']);
                         }
-                        $this->view_data['content'] = $bml->tableCreate(3,$data_table,"style='margin:auto;'","style='border:1px silver solid;'","true");
+                        $this->view_data['content'] = $bml->tableCreate(4,$data_table,"style='margin:auto;'","style='border:1px silver solid;'","true");
                         $this->make_view("main/get_history");
                 }
                 $this->disconnect($link);
@@ -31,14 +31,14 @@ class log_model extends system_model{
 		$bml = new BAEHTMLLib();
 		//exit("SELECT * FROM log_report WHERE date_time>=".$date_in." and date_time<=".$date_out."");
 		$query = mysqli_query($link,"SELECT * FROM log_report WHERE date_time>=".$date_in." and date_time<=".$date_out."");
-		$table_data = array("Дата","Операция","Сумма покупки");
+		$table_data = array("Дата","Операция","Сумма покупки","К оплате");
 		while($result = mysqli_fetch_array($query)){
 			array_push($table_data,date("d-m-Y h:i:s",$result['date_time']),
 						$result['operation'],
-						$result['summ']
+						$result['summ'],$result['t_summ']
 						);
 		}	
-		$out .= $bml->tableCreate(3,$table_data,"style='margin:auto'","style='border:1px silver solid;'",true);
+		$out .= $bml->tableCreate(4,$table_data,"style='margin:auto'","style='border:1px silver solid;'",true);
 		$this->disconnect($link);
 		print $out;	
 	}
