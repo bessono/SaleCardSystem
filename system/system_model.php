@@ -3,6 +3,11 @@
 class system_model {
 	
 	public $view_data = array();
+	
+	public function test(){
+		print "\n \r Debug.......ok \n \r";
+	}
+	
 	public function make_view($view_name){
 		$view_data = $this->view_data;
         include("./views/system_view/header.php");
