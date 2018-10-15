@@ -6,10 +6,20 @@ class main_model extends system_model{
 	private $percent = 0;
 
 	public function check_card($card_id){
-		
+		$card_id = trim($card_id);
 		$settings_model = new settings_model();
 		$settings = $settings_model->get_settings();
 		$link = $this->connect();
+			
+			if($query = mysqli_query($link,"SELECT * FROM cards WHERE card='".$card_id."'")){
+				$result = mysqli_fetch_array($query);
+				if($result['card'] != $card_id){
+					exit("Это не карта магазина Орфей".$result['card']."!=".$card_id);
+				}
+			} else {
+				exit("Ошибка обратитесь к разработчику");
+			}
+			
 			$query = mysqli_query($link,"SELECT * FROM customers WHERE card_id = '".$card_id."'");
 			$res = mysqli_fetch_array($query);
 			if(isset($res['id'])){
