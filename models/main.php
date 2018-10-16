@@ -10,10 +10,11 @@ class main_model extends system_model{
 		$settings_model = new settings_model();
 		$settings = $settings_model->get_settings();
 		$link = $this->connect();
-			
-			if($query = mysqli_query($link,"SELECT * FROM cards WHERE card='".$card_id."'")){
+				$t_card_id = substr($card_id, 0, -1);
+				print "<br>".$t_card_id."<br>";
+			if($query = mysqli_query($link,"SELECT * FROM cards WHERE card='".$t_card_id."'")){
 				$result = mysqli_fetch_array($query);
-				if($result['card'] != $card_id){
+				if($result['card'] != $t_card_id){
 					exit("Это не карта магазина Орфей".$result['card']."!=".$card_id);
 				}
 			} else {
